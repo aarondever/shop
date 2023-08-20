@@ -1,14 +1,9 @@
 <template>
-    <footer>
-        <div class="foot_link">
-            <a href="#">关于我们</a>
-            <span>|</span>
-            <a href="#">联系我们</a>
-            <span>|</span>
-            <a href="#">招聘人才</a>
-            <span>|</span>
-            <a href="#">友情链接</a>
+    <footer class="py-3 my-4">
+        <div class="footer-bottom text-center border-top pt-3">
+            © Copyright 2023. Made by
+            <a class="link-dark link-offset-2 link-underline-opacity-50 link-underline-opacity-100-hover" ref="noreferrer"
+                target="_blank" href="https://aaronhong.net">Aaron Hong</a>
         </div>
-        <p>CopyRight © 2016 北京美多商业股份有限公司 All Rights Reserved</p>
     </footer>
 </template>
