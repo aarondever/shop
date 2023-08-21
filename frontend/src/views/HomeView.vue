@@ -4,8 +4,8 @@
 
 <template>
   <main>
-    <div class="container">
-      <div class="row my-5 justify-content-start">
+    <div class="container my-5">
+      <div class="row justify-content-start">
         <div class="col-2"><a href="/">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-shop"
               viewBox="0 0 16 16">

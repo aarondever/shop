@@ -5,8 +5,8 @@ import { RouterLink } from 'vue-router'
 
 <template>
     <main>
-        <div class="container">
-            <div class="row justify-content-between my-5">
+        <div class="container my-5">
+            <div class="row justify-content-between">
                 <div class="col-2">
                     <h5 class="text-center mb-4">Your Account</h5>
                     <ul class="nav nav-pills flex-column text-center gap-3">
