@@ -1,0 +1,32 @@
+<template>
+    <main class="form-signin mx-auto">
+        <form>
+            <h1 class="h3 mb-3 fw-normal">Sign in</h1>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email address">
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            </div>
+
+            <div class="form-check text-start mb-3">
+                <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault" name="remember">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Remember me
+                </label>
+            </div>
+            <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+        </form>
+    </main>
+</template>
+
+<style scoped>
+.form-signin {
+    max-width: 330px;
+    padding: 1rem;
+}
+</style>
