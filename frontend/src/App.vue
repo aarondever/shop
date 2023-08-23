@@ -79,6 +79,13 @@
       </div>
     </nav>
   </header>
+
+  <div class="d-flex justify-content-center" v-if="$store.state.isLoading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
   <main>
     <router-view />
   </main>
@@ -111,7 +118,7 @@ export default {
     cartTotalLength() {
       let totalLength = 0
 
-      for (let i = 0; i < this.cart.items.length; i++){
+      for (let i = 0; i < this.cart.items.length; i++) {
         totalLength += this.cart.items[i].quantity
       }
 

@@ -64,7 +64,7 @@
               <router-link v-bind:to="product.get_absolute_url">
                 <img :src="product.get_image" width="800" height="400" class="d-block w-100 object-fit-scale"
                   alt="product_image">
-              </router-link >
+              </router-link>
             </div>
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators" data-bs-slide="prev">
@@ -100,7 +100,8 @@
       </div>
       <ul class="list-group list-group-horizontal">
         <li class="list-group-item border-0" v-for="product in latestProducts" :key="product.id">
-          <router-link v-bind:to="product.get_absolute_url" class="text-black link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+          <router-link v-bind:to="product.get_absolute_url"
+            class="text-black link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
             <img class="img-fluid img-thumbnail" :src="product.get_thumbnail" alt="product_thumbnail">
             <h3 class="fs-4 text-break" style="width: 14rem;">{{ product.name }}</h3>
             <p class="fs-6">${{ product.price }}</p>
@@ -125,14 +126,19 @@ export default {
     this.getLatestProducts()
   },
   methods: {
-    getLatestProducts() {
-      axios.get('/api/latest-products')
+    async getLatestProducts() {
+      this.$store.commit('setIsLoading', true)
+
+      await axios.get('/api/latest-products')
         .then(response => {
           this.latestProducts = response.data
         })
         .catch(error => {
           console.error(error)
         })
+
+      this.$store.commit('setIsLoading', false)
+
     }
   }
 }
