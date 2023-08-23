@@ -1,5 +1,5 @@
 <template>
-    <main class="form-signin mx-auto">
+    <div class="form-signin mx-auto">
         <form>
             <h1 class="h3 mb-3 fw-normal">Create an account</h1>
 
@@ -20,10 +20,10 @@
 
             <button class="btn btn-primary w-100 py-2" type="submit">Create account</button>
         </form>
-    </main>
+    </div>
 </template>
 
-<style scoped>
+<style lang="scss">
 .form-signin {
     max-width: 330px;
     padding: 1rem;
