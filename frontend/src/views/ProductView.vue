@@ -57,6 +57,7 @@ export default {
             await axios.get(`/api/products/${category_slug}/${product_slug}`)
                 .then(response => {
                     this.product = response.data
+                    document.title = this.product.name + ' | Shop'
                 }).catch(error => {
                     console.error(error)
                 })
