@@ -12,11 +12,12 @@
                     </div>
                     <div class="col">
                         <router-link :to="item.product.get_absolute_url"
-                            class="fs-3 text-black link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{{
+                            class="text-break fs-3 text-black link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{{
                                 item.product.name }}</router-link>
-                        <p class="fs-5">${{ getItemTotal(item).toFixed(2) }}</p>
+                        <p class="fs-5 mt-3">${{ getItemTotal(item).toFixed(2) }}</p>
                         <div class="input-group" style="max-width: 15rem;">
-                            <input type="number" class="form-control form-control-sm" min="1" v-model="item.quantity" @change="updateCart()">
+                            <input type="number" class="form-control form-control-sm" min="1" v-model="item.quantity"
+                                @change="updateCart()">
                             <button class="btn btn-danger" @click="removeFromCart(item)">Remove</button>
                         </div>
                     </div>
@@ -25,15 +26,14 @@
         </ul>
         <p class="fs-4 text-center" v-else>You Cart is empty.</p>
         <div class="mt-3 text-end" v-if="cartTotalLength > 0">
-            <span class="fs-3 align-middle me-3">Subtotal ({{ cartTotalLength }} items): ${{ cartTotalPrice().toFixed(2)
+            <span class="fs-3 align-middle me-3 lh-lg">Subtotal ({{ cartTotalLength }} items): ${{ cartTotalPrice.toFixed(2)
             }}</span>
-            <button class="btn btn-info btn-lg">Check out</button>
+            <router-link class="btn btn-info btn-lg" to="/cart/checkout">Check out</router-link>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
 
@@ -51,14 +51,14 @@ export default {
     computed: {
         cartTotalLength() {
             return this.cart.items.reduce((acc, curVal) => acc += curVal.quantity, 0)
+        },
+        cartTotalPrice() {
+            return this.cart.items.reduce((acc, curVal) => acc += curVal.quantity * curVal.product.price, 0)
         }
     },
     methods: {
         getItemTotal(item) {
             return item.quantity * item.product.price
-        },
-        cartTotalPrice() {
-            return this.cart.items.reduce((acc, curVal) => acc += curVal.quantity * curVal.product.price, 0)
         },
         updateCart() {
             localStorage.setItem('cart', JSON.stringify(this.$store.state.cart))

@@ -44,11 +44,11 @@ export default {
             this.errors = [] // reset errors
 
             if (this.username === '') {
-                this.errors.push('The username is missing')
+                this.errors.push('The username is missing!')
             }
 
             if (this.password === '') {
-                this.errors.push('The password is missing')
+                this.errors.push('The password is missing!')
             }
 
             if (this.errors.length === 0) {

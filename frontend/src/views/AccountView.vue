@@ -15,7 +15,7 @@
                     </li> -->
                 </ul>
             </div>
-            <div class="col-9">
+            <div class="col">
                 <router-view />
             </div>
         </div>

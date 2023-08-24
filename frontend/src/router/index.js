@@ -25,6 +25,22 @@ const routes = [
     component: () => import('../views/CartView.vue')
   },
   {
+    path: '/cart/checkout',
+    name: 'Checkout',
+    component: () => import('../views/CheckoutView.vue'),
+    meta: {
+      requireLogin: true
+    },
+  },
+  {
+    path: '/success',
+    name: 'Success',
+    component: () => import('../views/SuccessView.vue'),
+    meta: {
+      requireLogin: true
+    },
+  },
+  {
     path: '/search',
     name: 'Search',
     component: () => import('../views/SearchView.vue')
