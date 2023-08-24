@@ -18,19 +18,19 @@
           <div class="offcanvas-body">
             <ul class="navbar-nav flex-row flex-wrap ms-lg-auto gap-lg-3">
 
-              <template>
-                <li class="nav-item col-6 col-lg-auto"><a class="nav-link" href="#">Hello: </a>
+              <template v-if="$store.state.isAuthenticated">
+                <li class="nav-item col-6 col-lg-auto"><router-link class="nav-link" to="/account/security">Hello: {{ name }}</router-link>
                 </li>
-                <li class="nav-item col-6 col-lg-auto"><a class="nav-link" href="#">Logout</a></li>
+                <li class="nav-item col-6 col-lg-auto"><button class="nav-link" @click="logout">Logout</button></li>
                 <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
                   <div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
                   <hr class="d-lg-none my-2">
                 </li>
               </template>
 
-              <template>
+              <template v-else>
                 <li class="nav-item col-6 col-lg-auto">
-                  <router-link class="nav-link" to="/signin">Sign In</router-link>
+                  <router-link class="nav-link" to="/sign-in">Sign In</router-link>
                 </li>
                 <li class="nav-item col-6 col-lg-auto">
                   <router-link class="nav-link" to="/register">Register</router-link>
@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
   data() {
@@ -110,15 +111,35 @@ export default {
   },
   beforeCreate() {
     this.$store.commit('initializeStore')
+
+    const token = this.$store.state.token
+
+    if (token) {
+      // add token to request header
+      axios.defaults.headers.common['Authorization'] = 'Token ' + token
+    } else {
+      axios.defaults.headers.common['Authorization'] = ''
+    }
   },
   mounted() {
     this.cart = this.$store.state.cart
   },
   computed: {
     cartTotalLength() {
-
       return this.cart.items.reduce((acc, curVal) => acc + curVal.quantity, 0)
+    }
+  },
+  methods: {
+    logout() {
+      axios.defaults.headers.common['Authorization'] = ''
 
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      localStorage.removeItem('userid')
+
+      this.$store.commit('removeToken')
+
+      this.$router.push('/')
     }
   }
 }

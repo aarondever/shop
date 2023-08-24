@@ -1,7 +1,7 @@
 <template>
     <div class="form-signin mx-auto">
         <form @submit.prevent="submitForm">
-            <h1 class="h3 mb-3 fw-normal">Create an account</h1>
+            <h1 class="h3 mb-3 fw-normal">Sign In</h1>
 
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
@@ -15,39 +15,32 @@
                     v-model="password">
             </div>
 
-            <div class="mb-3">
-                <label for="confirm_password" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="confirm_password" name="confirm_password"
-                    placeholder="Confirm password" v-model="confirm_password">
-            </div>
-
             <div class="alert alert-danger" role="alert" v-if="errors.length > 0">
                 <p class="mb-1" v-for="error in errors">{{ error }}</p>
             </div>
 
-            <button class="btn btn-primary w-100 py-2" type="submit">Create account</button>
+            <button class="btn btn-primary w-100 py-2" type="submit">Sign In</button>
         </form>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
 
 export default {
-    name: 'RegisterView',
+    name: 'SignInView',
     data() {
         return {
             username: '',
             password: '',
-            confirm_password: '',
             errors: []
         }
     },
     mounted() {
-        document.title = 'Register | Shop'
+        document.title = 'Sign In | Shop'
     },
     methods: {
-        submitForm() {
+        async submitForm() {
             this.errors = [] // reset errors
 
             if (this.username === '') {
@@ -58,20 +51,26 @@ export default {
                 this.errors.push('The password is missing')
             }
 
-            if (this.password !== this.confirm_password) {
-                this.errors.push('The passwords does not match')
-            }
-
             if (this.errors.length === 0) {
+
+                axios.defaults.headers.common['Authorization'] = ''
+
+                localStorage.removeItem('token')
+
                 const formData = {
                     username: this.username,
                     password: this.password
                 }
 
-                axios.post('/api/users/', formData)
+                await axios.post('/api/token/login/', formData)
                     .then(response => {
+                        const token = response.data.auth_token
+                        this.$store.commit('setToken', token)
+                        axios.defaults.headers.common['Authorization'] = 'Token ' + token
+                        localStorage.setItem('token', token)
 
-                        this.$router.push('/sign-in')
+                        const toPath = this.$route.query.to || '/'
+                        this.$router.push(toPath)
                     })
                     .catch(error => {
                         if (error.response) {
