@@ -1,51 +1,72 @@
 <template>
     <div class="container my-5">
         <h3 class="mb-3">Shopping Cart</h3>
-        <ul class="list-group">
-            <li class="list-group-item">
+        <ul class="list-group" v-if="cartTotalLength > 0">
+            <li class="list-group-item" v-for="item in cart.items" :key="item.product.id">
                 <div class="row">
-                    <div class="col-1 position-relative">
-                        <input class="form-check-input position-absolute top-50 start-50 translate-middle" type="checkbox"
-                            value="">
-                    </div>
                     <div class="col-3">
-                        <img src="" alt="">
+                        <router-link :to="item.product.get_absolute_url">
+                            <img :src="item.product.get_thumbnail" alt="product_thumbnail"
+                                class="img-fluid rounded mx-auto d-block">
+                        </router-link>
                     </div>
                     <div class="col">
-                        <a href="#" class="text-decoration-none text-black fs-3">item detail</a>
-                        <p class="fw-bold fs-5">$99</p>
-                        <div class="row justify-content-start">
-                            <div class="col-1 d-none d-lg-block me-3">
-                                Quantity:
-                            </div>
-                            <div class="col">
-                                <div class="btn-toolbar">
-                                    <div class="input-group">
-                                        <button class="input-group-text" id="basic-addon1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
-                                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
-                                            </svg>
-                                        </button>
-                                        <input type="text" class="form-control-sm text-center w-25" value="1">
-                                        <button class="input-group-text" id="basic-addon1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
-                                                </path>
-                                            </svg>
-                                        </button>
-                                        <div class="btn-group">
-                                            <button class="btn btn-danger btn-sm ms-3">Delete</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <router-link :to="item.product.get_absolute_url"
+                            class="fs-3 text-black link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{{
+                                item.product.name }}</router-link>
+                        <p class="fs-5">${{ getItemTotal(item).toFixed(2) }}</p>
+                        <div class="input-group" style="max-width: 15rem;">
+                            <input type="number" class="form-control form-control-sm" min="1" v-model="item.quantity" @change="updateCart()">
+                            <button class="btn btn-danger" @click="removeFromCart(item)">Remove</button>
                         </div>
                     </div>
                 </div>
             </li>
         </ul>
+        <p class="fs-4 text-center" v-else>You Cart is empty.</p>
+        <div class="mt-3 text-end" v-if="cartTotalLength > 0">
+            <span class="fs-3 align-middle me-3">Subtotal ({{ cartTotalLength }} items): ${{ cartTotalPrice().toFixed(2)
+            }}</span>
+            <button class="btn btn-info btn-lg">Check out</button>
+        </div>
     </div>
 </template>
+
+<script>
+import axios from 'axios'
+
+export default {
+
+    name: 'CartView',
+    data() {
+        return {
+            cart: {
+                items: []
+            }
+        }
+    },
+    mounted() {
+        this.cart = this.$store.state.cart
+    },
+    computed: {
+        cartTotalLength() {
+            return this.cart.items.reduce((acc, curVal) => acc += curVal.quantity, 0)
+        }
+    },
+    methods: {
+        getItemTotal(item) {
+            return item.quantity * item.product.price
+        },
+        cartTotalPrice() {
+            return this.cart.items.reduce((acc, curVal) => acc += curVal.quantity * curVal.product.price, 0)
+        },
+        updateCart() {
+            localStorage.setItem('cart', JSON.stringify(this.$store.state.cart))
+        },
+        removeFromCart(item) {
+            this.cart.items = this.cart.items.filter(i => i.product.id !== item.product.id)
+            this.updateCart()
+        }
+    }
+}
+</script>

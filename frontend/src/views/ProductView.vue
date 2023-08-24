@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-9">
                 <figure class="figure">
-                    <img :src="product.get_image" class="figure-img img-fluid rounded" alt="...">
+                    <img :src="product.get_image" class="img-fluid rounded mx-auto d-block" alt="product_image">
                 </figure>
                 <h1 class="title">{{ product.name }}</h1>
                 <p>{{ product.description }}</p>
@@ -13,7 +13,7 @@
                 <p class="mb-5">
                     <string>Price: ${{ product.price }}</string>
                 </p>
-                <div class="input-group mb-5">
+                <div class="input-group">
                     <input type="number" class="form-control form-control-sm" min="1" v-model="quantity">
                     <button class="btn btn-dark" @click="addToCart">Add to cart</button>
                 </div>
