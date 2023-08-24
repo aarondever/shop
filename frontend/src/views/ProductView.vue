@@ -45,6 +45,7 @@ export default {
         }
     },
     mounted() {
+        document.title = 'Product | Shop'
         this.getProduct()
     },
     methods: {

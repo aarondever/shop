@@ -19,7 +19,7 @@
             <ul class="navbar-nav flex-row flex-wrap ms-lg-auto gap-lg-3">
 
               <template v-if="$store.state.isAuthenticated">
-                <li class="nav-item col-6 col-lg-auto"><router-link class="nav-link" to="/account/security">Hello: {{ name }}</router-link>
+                <li class="nav-item col-6 col-lg-auto"><router-link class="nav-link" to="/account/security">Hello: {{ username }}</router-link>
                 </li>
                 <li class="nav-item col-6 col-lg-auto"><button class="nav-link" @click="logout">Logout</button></li>
                 <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
@@ -106,7 +106,8 @@ export default {
     return {
       cart: {
         items: []
-      }
+      },
+      username: ''
     }
   },
   beforeCreate() {
@@ -123,6 +124,7 @@ export default {
   },
   mounted() {
     this.cart = this.$store.state.cart
+    this.username = localStorage.getItem('username')
   },
   computed: {
     cartTotalLength() {

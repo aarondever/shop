@@ -6,10 +6,27 @@
                 <div class="row">
                     <div class="col">
                         <label for="username" class="fw-bold">Username:</label>
-                        <p class="fs-6 fw-normal">name</p>
+                        <p class="fs-6 fw-normal">{{ username }}</p>
                     </div>
                 </div>
             </li>
         </ul>
     </div>
 </template>
+
+<script>
+export default {
+    name: 'Security',
+    data() {
+        return {
+            username: ''
+        }
+    },
+    mounted() {
+        document.title = 'Account | Detail | Shop'
+
+        this.username = localStorage.getItem('username')
+
+    },
+}
+</script>

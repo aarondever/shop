@@ -22,6 +22,8 @@ export default {
         ProductList
     },
     mounted() {
+        document.title = 'Category | Shop'
+        
         this.getCategory()
     },
     watch: {

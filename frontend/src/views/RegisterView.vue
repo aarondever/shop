@@ -24,8 +24,12 @@
             <div class="alert alert-danger" role="alert" v-if="errors.length > 0">
                 <p class="mb-1" v-for="error in errors">{{ error }}</p>
             </div>
-
-            <button class="btn btn-primary w-100 py-2" type="submit">Create account</button>
+            <button v-if="$store.state.isLoading" class="btn btn-primary w-100 py-2" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                <span role="status">Loading...</span>
+            </button>
+            
+            <button v-else class="btn btn-primary w-100 py-2" type="submit">Create account</button>
         </form>
     </div>
 </template>
@@ -47,7 +51,7 @@ export default {
         document.title = 'Register | Shop'
     },
     methods: {
-        submitForm() {
+        async submitForm() {
             this.errors = [] // reset errors
 
             if (this.username === '') {
@@ -68,9 +72,10 @@ export default {
                     password: this.password
                 }
 
-                axios.post('/api/users/', formData)
-                    .then(response => {
+                this.$store.commit('setIsLoading', true)
 
+                await axios.post('/api/users/', formData)
+                    .then(response => {
                         this.$router.push('/sign-in')
                     })
                     .catch(error => {
@@ -84,6 +89,8 @@ export default {
                             console.error(JSON.stringify(error))
                         }
                     })
+
+                this.$store.commit('setIsLoading', false)
             }
         }
     }

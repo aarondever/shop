@@ -18,8 +18,12 @@
             <div class="alert alert-danger" role="alert" v-if="errors.length > 0">
                 <p class="mb-1" v-for="error in errors">{{ error }}</p>
             </div>
-
-            <button class="btn btn-primary w-100 py-2" type="submit">Sign In</button>
+            <button v-if="$store.state.isLoading" class="btn btn-primary w-100 py-2" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                <span role="status">Loading...</span>
+            </button>
+            
+            <button v-else class="btn btn-primary w-100 py-2" type="submit">Sign In</button>
         </form>
     </div>
 </template>
@@ -62,12 +66,15 @@ export default {
                     password: this.password
                 }
 
+                this.$store.commit('setIsLoading', true)
+
                 await axios.post('/api/token/login/', formData)
                     .then(response => {
                         const token = response.data.auth_token
                         this.$store.commit('setToken', token)
                         axios.defaults.headers.common['Authorization'] = 'Token ' + token
                         localStorage.setItem('token', token)
+                        localStorage.setItem('username', this.username)
 
                         const toPath = this.$route.query.to || '/'
                         this.$router.push(toPath)
@@ -83,6 +90,9 @@ export default {
                             console.error(JSON.stringify(error))
                         }
                     })
+
+                this.$store.commit('setIsLoading', false)
+
             }
         }
     }

@@ -39,17 +39,20 @@ class Product(models.Model):
     
     def get_image(self):
         if self.image:
+            # TODO dynamically generate url
             return 'http://127.0.0.1:8000' + self.image.url
         return ''
     
     def get_thumbnail(self):
         if self.thumbnail:
+            # TODO dynamically generate url
             return 'http://127.0.0.1:8000' + self.thumbnail.url
         
         if self.image:
             self.thumbnail = self.make_thumbnail(self.image)
             self.save()
 
+            # TODO dynamically generate url
             return 'http://127.0.0.1:8000' + self.thumbnail.url
         
         return ''
