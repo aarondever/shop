@@ -125,6 +125,8 @@ export default {
   mounted() {
     this.cart = this.$store.state.cart
     this.username = localStorage.getItem('username')
+
+    document.title = 'Shop'
   },
   computed: {
     cartTotalLength() {

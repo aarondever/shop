@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from .models import Product, Category
-from .serializers import ProductSerializer, CategorySerializer
+from .serializers import ProductSerializer, CategorySerializer, CategoryListSerializer
 
 class LatestProductList(APIView):
 
@@ -39,6 +39,13 @@ class CategoryDetail(APIView):
     def get(self, request, category_slug, format=None):
         category = self.get_object(category_slug)
         serializer = CategorySerializer(category)
+        return Response(serializer.data)
+
+class CategoryList(APIView):
+
+    def get(self, request, format=None):
+        categories = Category.objects.all()
+        serializer = CategoryListSerializer(categories, many=True)
         return Response(serializer.data)
 
 @api_view(['POST'])

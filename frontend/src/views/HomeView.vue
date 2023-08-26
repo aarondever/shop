@@ -29,11 +29,8 @@
       <div class="col-2">
         <h5 class="text-center">Category</h5>
         <ul class="nav">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/computer">computer</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/laptop">laptop</router-link>
+          <li class="nav-item" v-for="category in categories" :key="category.id">
+            <router-link class="nav-link" :to="category.get_absolute_url">{{ category.name }}</router-link>
           </li>
         </ul>
       </div>
@@ -43,6 +40,8 @@
             <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" aria-label="Slide 1"
               class="active" aria-current="true"></button>
             <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
           </div>
           <div class="carousel-inner">
             <div class="carousel-item" :class="{ active: index === 0 }" data-bs-interval="5000"
@@ -69,18 +68,8 @@
         <div class="d-flex">
           <div class="pe-4">
             <h2 class="fs-4 fw-bold">
-              <a class="text-black link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                href="#">PC Laptops & Netbooks</a>
+              Latest Products:
             </h2>
-          </div>
-          <div class="fs-5 fw-medium border-start ps-4">
-            <a class="text-black link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-              href="#">See all</a>
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
-              class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
-              <path fill-rule="evenodd"
-                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
-            </svg>
           </div>
         </div>
       </div>
@@ -98,7 +87,8 @@ export default {
   name: 'HomeView',
   data() {
     return {
-      latestProducts: []
+      latestProducts: [],
+      categories: []
     }
   },
   components: {
@@ -106,6 +96,7 @@ export default {
   },
   mounted() {
     this.getLatestProducts()
+    this.getCategories()
 
     document.title = 'Home | Shop'
   },
@@ -123,6 +114,15 @@ export default {
 
       this.$store.commit('setIsLoading', false)
 
+    },
+    getCategories() {
+      axios.get('/api/categories')
+      .then(response => {
+        this.categories = response.data
+      })
+      .catch(error => {
+        console.error(error)
+      })
     }
   }
 }
