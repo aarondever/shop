@@ -9,7 +9,7 @@
           </svg>
         </router-link>
       </div>
-      <div class="col-8">
+      <div class="col-10 col-lg-8">
         <form method="get" action="/search">
           <div class="input-group rounded">
             <span class="input-group-text">
