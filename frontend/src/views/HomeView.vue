@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="row my-5">
-      <div class="col-2">
+      <div class="col-12 col-lg-2 mb-3">
         <h5 class="text-center">Category</h5>
         <ul class="nav">
           <li class="nav-item" v-for="category in categories" :key="category.id">
@@ -34,7 +34,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-8">
+      <div class="col-12 col-lg-8">
         <div id="carouselIndicators" class="carousel slide bg-secondary" data-bs-ride="carousel">
           <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" aria-label="Slide 1"

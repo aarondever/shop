@@ -1,5 +1,5 @@
 <template>
-    <ul class="list-group list-group-horizontal gap-3">
+    <ul class="list-group list-group-horizontal-lg gap-3">
         <li class="list-group-item border-0" v-for="product in productList" :key="product.id">
             <router-link v-bind:to="product.get_absolute_url"
                 class="text-black link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">

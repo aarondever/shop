@@ -1,9 +1,9 @@
 <template>
     <div class="container my-5">
-        <div class="row justify-content-between">
-            <div class="col-2">
-                <h5 class="text-center mb-4">Your Account</h5>
-                <ul class="nav nav-pills flex-column text-center gap-3">
+        <div class="row justify-content-lg-between justify-content-center">
+            <div class="col-6 col-lg-2 mb-3 text-center">
+                <h5 class="mb-4">Your Account</h5>
+                <ul class="nav nav-pills flex-column gap-3">
                     <li class="nav-item">
                         <router-link class="nav-link" :class="{active: $route.name === 'AccountSecurity'}" to="/account/security">Account Detail</router-link>
                     </li>
@@ -15,7 +15,7 @@
                     </li> -->
                 </ul>
             </div>
-            <div class="col">
+            <div class="col-12 col-lg-10">
                 <router-view />
             </div>
         </div>
