@@ -54,10 +54,10 @@ Install nginx:
 sudo apt install nginx
 ```
 
-Create nginx config for `Django`
+Create nginx config for `API`
 
 ```shell
-sudo vi /etc/nginx/sites-available/django.conf
+sudo vi /etc/nginx/sites-available/shop-api
 ```
 
 Add the following content to the config file:
@@ -65,19 +65,32 @@ Add the following content to the config file:
 ```shell
 server {
     listen 80;
-    server_name <Your IP address or domain name>;
+    server_name <IP address or domain name>;
+
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name <IP address or domain name>;
+
+    error_log /home/<Username>/shop/django-error.log;
+    error_log /home/<Username>/shop/django-access.log;
+
+    ssl_certificate <Path to cert>;
+    ssl_certificate_key <Path to key>;
 
     location /static/ {
-        alias /home/<username>/shop/static/;
+        alias /home/<Username>/shop/static/;
     }
 
     location /media/ {
-        alias /home/<username>/shop/media/;
+        alias /home/<Username>/shop/media/;
     }
 
     location / {
         include proxy_params;
-        proxy_pass http://localhost:8000;
+        proxy_pass <Port or Socket>;
     }
 }
 ```
@@ -85,7 +98,7 @@ server {
 Create nginx config for `Vue`
 
 ```shell
-sudo vi /etc/nginx/sites-available/vue.conf
+sudo vi /etc/nginx/sites-available/shop
 ```
 
 Add the following content to the config file:
@@ -93,14 +106,27 @@ Add the following content to the config file:
 ```shell
 server {
     listen 80;
-    server_name <Your IP address or domain name>;
+    server_name <IP address or domain name>;
+
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name <IP address or domain name>;
+
+    error_log /home/<Username>/shop/vue-error.log;
+    error_log /home/<Username>/shop/vue-access.log;
+
+    ssl_certificate <Path to cert>;
+    ssl_certificate_key <Path to key>;
 
     charset utf-8;
-    root /home/<username>/shop/dist;
+    root /home/<Username>/shop/dist;
     index index.html index.htm;
 
     location / {
-        root /home/<username>/shop/dist;
+        root /home/<Username>/shop/dist;
         try_files $uri /index.html;
     }
 }
@@ -109,7 +135,7 @@ server {
 Soft link conf files and restart nginx
 
 ```shell
-sudo ln -s /etc/nginx/sites-available/django.conf /etc/nginx/sites-enabled/
-sudo ln -s /etc/nginx/sites-available/vue.conf /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/shop-api /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/shop /etc/nginx/sites-enabled/
 sudo nginx -s reload
 ```
