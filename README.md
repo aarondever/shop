@@ -30,11 +30,11 @@ Description=Gunicorn instance to server Shop Django app
 After=network.target
 
 [Service]
-User=<username>
+User=<Username>
 Group=www-data
-WorkingDirectory=/home/<username>/shop
-Environment="PATH=/home/<username>/shop/.venv/bin"
-ExecStart=/home/<username>/shop/.venv/bin/gunicorn --workers 4 --bind 0.0.0.0:8000 shop.wsgi
+WorkingDirectory=/home/<Username>/shop
+Environment="PATH=/home/<Username>/shop/.venv/bin"
+ExecStart=/home/<Username>/shop/.venv/bin/gunicorn --workers 4 --bind 0.0.0.0:8000 shop.wsgi
 
 [Install]
 WantedBy=multi-user.target
@@ -75,7 +75,7 @@ server {
     server_name <IP address or domain name>;
 
     error_log /home/<Username>/shop/django-error.log;
-    error_log /home/<Username>/shop/django-access.log;
+    access_log /home/<Username>/shop/django-access.log;
 
     ssl_certificate <Path to cert>;
     ssl_certificate_key <Path to key>;
@@ -116,7 +116,7 @@ server {
     server_name <IP address or domain name>;
 
     error_log /home/<Username>/shop/vue-error.log;
-    error_log /home/<Username>/shop/vue-access.log;
+    access_log /home/<Username>/shop/vue-access.log;
 
     ssl_certificate <Path to cert>;
     ssl_certificate_key <Path to key>;
