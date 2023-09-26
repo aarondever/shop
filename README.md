@@ -1,6 +1,6 @@
 # Shop
 
-An e-commerce website built with **Vue.js**, **Django**, and **MySQL**. Live link: https://shop.aaronhong.net
+An e-commerce website built with **Vue.js**, **Django**, and **PostgreSQL**. Live link: https://shop.aaronhong.net
 
 ## Deploying to a Server
 
